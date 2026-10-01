@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Baby!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Shantell Sans', cursive, sans-serif;
+            background-color: #87CEEB;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.45) 50%, transparent 50%),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.45) 50%, transparent 50%);
+            background-size: 40px 40px;
+            color: #1e3a8a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .website-container {
+            width: 100%;
+            max-width: 650px;
+            background: #ffffff;
+            border: 4px solid #1e3a8a;
+            border-radius: 24px;
+            box-shadow: 0 12px 30px rgba(30, 58, 138, 0.18), 0 4px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            position: relative;
+            animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popUp {
+            from { opacity: 0; transform: scale(0.95) translateY(15px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .navbar {
+            background: #fef08a;
+            border-bottom: 3.5px solid #1e3a8a;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .music-player-widget {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            border: 2.5px solid #1e3a8a;
+            padding: 4px 12px;
+            border-radius: 20px;
+            box-shadow: 0 2px 0 #1e3a8a;
+        }
+
+        .music-info {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            max-width: 140px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-toggle-btn {
+            background: #fef08a;
+            border: 2px solid #1e3a8a;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #1e3a8a;
+            transition: transform 0.1s, background 0.1s;
+        }
+
+        .music-toggle-btn:hover {
+            background: #fde047;
+        }
+
+        .music-toggle-btn:active {
+            transform: scale(0.9);
+        }
+
+        .screen-container {
+            padding: 35px 30px;
+            min-height: 460px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: #ffffff;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 {
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 1.6rem;
+        }
+
+        p.subtitle {
+            font-size: 0.92rem;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .dots-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .dot {
+            width: 22px;
+            height: 22px;
+            border: 3px solid #1e3a8a;
+            border-radius: 50%;
+            background-color: #fff;
+            transition: background 0.15s;
+        }
+
+        .dot.filled {
+            background-color: #facc15;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 68px);
+            gap: 12px;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        .key {
+            background-color: #fef08a;
+            border: 3px solid #1e3a8a;
+            border-radius: 14px;
+            height: 56px;
+            font-family: 'Shantell Sans', cursive, sans-serif;
+            font-size: 1.35rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            cursor: pointer;
+            transition: all 0.08s ease;
+            box-shadow: 0 4px 0 #1e3a8a;
+        }
+
+        .key:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #1e3a8a;
+        }
+
+        .error-msg {
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 14px;
+            min-height: 20px;
+            font-weight: bold;
+        }
+
+        .hub-header {
+            font-size: 1.8rem;
+            color: #1e3a8a;
+            margin-bottom: 6px;
+            text-shadow: 2px 2px 0px #facc15;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 12px;
+        }
+
+        .menu-btn {
+            background: #fef08a;
+            border: 3px solid #1e3a8a;
+            border-radius: 16px;
+            padding: 20px 12px;
+            font-family: 'Shantell Sans', cursive, sans-serif;
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            cursor: pointer;
+            transition: transform 0.15s, background 0.15s;
+            box-shadow: 0 5px 0 #1e3a8a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-btn:hover {
+            background: #fde047;
+            transform: translateY(-2px);
+        }
+
+        .menu-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1e3a8a;
+        }
+
+        .envelope-wrapper {
+            cursor: pointer;
+            margin: 15px auto 20px auto;
+            width: 240px;
+            height: 155px;
+            background: #1e3a8a;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.03);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 120px solid transparent;
+            border-right: 120px solid transparent;
+            border-top: 88px solid #facc15;
+            transform-origin: top;
+            transition: transform 0.35s ease;
+        }
+
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 10;
+        }
+
+        .letter-paper {
+            display: none;
+            background: #fffbeb;
+            border: 2px dashed #1e3a8a;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            max-height: 310px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+        }
+
+        .letter-paper h3 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+        }
+
+        .letter-paper p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #334155;
+            margin-bottom: 12px;
+        }
+
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .reason-pill {
+            background: #fef08a;
+            border: 2.5px solid #1e3a8a;
+            border-radius: 30px;
+            padding: 12px 14px;
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 3px 0 #1e3a8a;
+        }
+
+        .polaroid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .polaroid {
+            background: #ffffff;
+            border: 3px solid #1e3a8a;
+            padding: 10px 10px 22px 10px;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+            border-radius: 6px;
+            transform: rotate(-1.5deg);
+        }
+
+        .polaroid:nth-child(even) {
+            transform: rotate(1.5deg);
+        }
+
+        .polaroid-img {
+            width: 100%;
+            height: 105px;
+            background: #e2e8f0;
+            border: 2px solid #1e3a8a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #64748b;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .polaroid span {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .gift-card {
+            background: #fef08a;
+            border: 3px solid #1e3a8a;
+            border-radius: 14px;
+            height: 105px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #1e3a8a;
+            transition: transform 0.15s;
+            font-weight: bold;
+            color: #1e3a8a;
+            font-size: 0.95rem;
+        }
+
+        .gift-card:hover {
+            background: #fde047;
+            transform: translateY(-2px);
+        }
+
+        .gift-card:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1e3a8a;
+        }
+
+        .gift-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 58, 138, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .gift-modal.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .gift-modal-content {
+            background: #ffffff;
+            border: 4px solid #1e3a8a;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 360px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: transform 0.2s ease;
+        }
+
+        .gift-modal.active .gift-modal-content {
+            transform: scale(1);
+        }
+
+        .return-btn {
+            background-color: #fef08a;
+            border: 3px solid #1e3a8a;
+            border-radius: 12px;
+            padding: 10px 24px;
+            font-family: 'Shantell Sans', cursive, sans-serif;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #1e3a8a;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .return-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #1e3a8a;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="music/song.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="website-container">
+        <div class="navbar">
+            <div class="nav-brand">
+                <span>💛</span> <span>For My Baby</span>
+            </div>
+            <div class="music-player-widget">
+                <div class="music-info" id="musicStatus">
+                    <span>🎵</span> <span id="trackName">Background Music</span>
+                </div>
+                <button class="music-toggle-btn" id="musicBtn" type="button" onclick="toggleMusic()" title="Play/Pause Music">▶</button>
+            </div>
+        </div>
+
+        <div class="screen-container">
+            <div id="screen-passcode" class="screen active">
+                <h1>Enter Code</h1>
+                <div class="dots-row">
+                    <div class="dot" id="dot-0"></div>
+                    <div class="dot" id="dot-1"></div>
+                    <div class="dot" id="dot-2"></div>
+                    <div class="dot" id="dot-3"></div>
+                </div>
+                <p class="subtitle">Hint: no hint.</p>
+                
+                <div class="keypad">
+                    <button class="key" type="button" onclick="pressKey('1')">1</button>
+                    <button class="key" type="button" onclick="pressKey('2')">2</button>
+                    <button class="key" type="button" onclick="pressKey('3')">3</button>
+                    <button class="key" type="button" onclick="pressKey('4')">4</button>
+                    <button class="key" type="button" onclick="pressKey('5')">5</button>
+                    <button class="key" type="button" onclick="pressKey('6')">6</button>
+                    <button class="key" type="button" onclick="pressKey('7')">7</button>
+                    <button class="key" type="button" onclick="pressKey('8')">8</button>
+                    <button class="key" type="button" onclick="pressKey('9')">9</button>
+                    <button class="key" type="button" onclick="pressKey('.')">.</button>
+                    <button class="key" type="button" onclick="pressKey('0')">0</button>
+                    <button class="key" type="button" onclick="pressKey('DEL')">DEL</button>
+                </div>
+                <div class="error-msg" id="error-msg"></div>
+            </div>
+
+            <div id="screen-hub" class="screen">
+                <h2 class="hub-header">HAPPY BIRTHDAY, BABY!</h2>
+                <p class="subtitle">Choose what you want to open below:</p>
+                <div class="menu-grid">
+                    <button class="menu-btn" type="button" onclick="switchScreen('screen-letter')">
+                        💌 <span>You Got a Letter</span>
+                    </button>
+                    <button class="menu-btn" type="button" onclick="switchScreen('screen-reasons')">
+                        ⭐ <span>Why You Matter</span>
+                    </button>
+                    <button class="menu-btn" type="button" onclick="switchScreen('screen-archive')">
+                        📸 <span>Photo Archives</span>
+                    </button>
+                    <button class="menu-btn" type="button" onclick="switchScreen('screen-gifts')">
+                        🎁 <span>Blue & Yellow Gifts</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="screen-letter" class="screen">
+                <h2>You Got a Letter</h2>
+                <p class="subtitle" style="margin-bottom: 5px;">Click the envelope to open</p>
+                
+                <div class="envelope-wrapper" id="envelope" onclick="openLetter()">
+                    <div class="envelope-flap"></div>
+                    <div style="position: absolute; bottom: 30px; width: 100%; text-align: center; color: #facc15; font-size: 1.15rem; font-weight: bold;">Click Here</div>
+                </div>
+
+                <div class="letter-paper" id="letter-content">
+                    <h3>Dear Baby,</h3>
+                    <p>
+                        happy birthday, baby!
+                    </p>
+
+                    <p>
+                        i think one of the best thing that happened to this yr me was meeting you hehehe. and i think there's a purpose why i met you during the enrollment hahaha. i mean, baka kung di kita nakausap that day? i wouldn't have this person who now means so much to me and habo ko na mawara pa.
+                    </p>
+
+                    <p>
+                       baby, thank you. thank you for always understanding me, even minsan diko aram how to explain myself. thank you for coming into my life rather??? hahahaha. but yun, everything that you do man po na appreciate ko. the way you listen, comfort me, and make me feel seen. even the little things you do, napapansin ko po yun, baby.
+                    </p>
+
+                    <p>
+                        ik na we've only know each other for a while po, but ayun grabe na ang love ang inpapa feel mo saako that's why always ako naiiyak whenever i think about it hahahahahs. well, thank you for letting me part of your life. thank you for being patient with me and loving me the way you know maski minsan annoying ako hahahs.
+                    </p>
+
+                    <p>
+                        and baby, i just want you to remember na you have to be perfect to be worthy of being loved and appreciated. ik minsan na p-pressure ka bcoz of me, but that's not never my intention po. gusto ko manlang tukduan ka to do such things na nahihirapan ka or dire mo pa aram so that mas maging better pa kita to each other. and you don't have to figure out either po kay you're still learning and growing ps naman po.
+                    </p>
+
+                    <p>
+                        i hope you continue to prioritize your dreams, your studies and yourself po. coz baby, i want to see you reach the things you're working hard for. and diba bibilhan mo me high-end na panty? hahaha eme. but seriously, i'm hoping po na yung mga plans natin sa life of being together is ma achieve natin someday. well, sino ba naman papayag na dire, diba? hahha.
+                    </p>
+
+                    <p>
+                        ayun, happy birthday again. i hope your 19th year will be kind to you. i hope yk na i'm so grateful that i met you. i love you so muchhh, and hope you always keep that in mind no matter how annoying, childish and maburungon i can be minsan hahahaha
+                    </p>
+
+                    <p>
+                        mahal na mahal po kita, sobra.
+                    </p>
+                </div>
+
+                <button class="return-btn" type="button" onclick="switchScreen('screen-hub')">RETURN TO HUB</button>
+            </div>
+
+            <div id="screen-reasons" class="screen">
+                <h2>Reasons Why You Matter</h2>
+                <p class="subtitle" style="margin-bottom: 14px;">A little reminder of why you'll always have my heart</p>
+                
+                <div class="reasons-grid">
+                    <div class="reason-pill">you always know how to comfort me.</div>
+                    <div class="reason-pill">you understand me without judging me.</div>
+                    <div class="reason-pill">you always make me happy.</div>
+                    <div class="reason-pill">you make me feel seen.</div>
+                    <div class="reason-pill">you make my heart feel at home.</div>
+                    <div class="reason-pill">you love me with your whole heart.</div>
+                    <div class="reason-pill">you're so wild.</div>
+                    <div class="reason-pill">you always annoys me. charot!.</div>
+                </div>
+
+                <button class="return-btn" type="button" onclick="switchScreen('screen-hub')">RETURN TO HUB</button>
+            </div>
+
+            <div id="screen-archive" class="screen">
+                <h2>Some Photo Archives</h2>
+                <p class="subtitle"> sweet moments</p>
+
+                <div class="polaroid-container">
+                    <div class="polaroid">
+                        <div class="polaroid-img">
+                            <img src="images/photo1.jpg" alt="Us Together" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span>Us Together</span>
+                    </div>
+                    <div class="polaroid">
+                        <div class="polaroid-img">
+                            <img src="images/photo2.jpg" alt="Favorite Memory" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span>Favorite Memory</span>
+                    </div>
+                    <div class="polaroid">
+                        <div class="polaroid-img">
+                            <img src="images/photo3.jpg" alt="Happy Moments" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span>Happy Moments</span>
+                    </div>
+                    <div class="polaroid">
+                        <div class="polaroid-img">
+                            <img src="images/photo4.jpg" alt="My Favorite Person" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span>My Favorite Person</span>
+                    </div>
+                </div>
+
+                <button class="return-btn" type="button" onclick="switchScreen('screen-hub')">RETURN TO HUB</button>
+            </div>
+
+            <div id="screen-gifts" class="screen">
+                <h2>Special Gifts For You</h2>
+                <p class="subtitle">these are for you! i hope you'll like it</p>
+
+                <div class="gifts-grid">
+                    <div class="gift-card" onclick="openGiftModal('🎁 Gift #1: lifetime supply of kiss and unlimited hugs!')">
+                        <span style="font-size: 1.5rem;">💙</span>
+                        <span>Surprise #1</span>
+                    </div>
+                    <div class="gift-card" onclick="openGiftModal('💛 Gift #2: weekend food trip anywhere and anything you want wara mura hahaha')">
+                        <span style="font-size: 1.5rem;">⭐</span>
+                        <span>Surprise #2</span>
+                    </div>
+                    <div class="gift-card" onclick="openGiftModal('💙 Gift #3: movie marathon with all our favorite snacks.')">
+                        <span style="font-size: 1.5rem;">🎬</span>
+                        <span>Surprise #3</span>
+                    </div>
+                    <div class="gift-card" onclick="openGiftModal('💛 Gift #4: one free massage coupon valid anytime you are stressed!')">
+                        <span style="font-size: 1.5rem;">💆‍♀️️</span>
+                        <span>Surprise #4</span>
+                    </div>
+                </div>
+
+                <button class="return-btn" type="button" onclick="switchScreen('screen-hub')">RETURN TO HUB</button>
+            </div>
+
+            <div class="gift-modal" id="giftModal" onclick="closeGiftModal()">
+                <div class="gift-modal-content" onclick="event.stopPropagation()">
+                    <h3 style="color: #1e3a8a; margin-bottom: 8px; font-size: 1.2rem;">You Unlocked a Gift!</h3>
+                    <p id="giftModalText" style="color: #334155; font-size: 0.95rem; margin-bottom: 18px;"></p>
+                    <button class="return-btn" type="button" onclick="closeGiftModal()">Awesome!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const correctPasscode = "0924";
+        let enteredCode = "";
+
+        function pressKey(num) {
+            const errorMsg = document.getElementById("error-msg");
+            errorMsg.textContent = "";
+
+            if (num === 'DEL') {
+                enteredCode = enteredCode.slice(0, -1);
+            } else if (enteredCode.length < 4) {
+                enteredCode += num;
+            }
+
+            updateDots();
+
+            if (enteredCode.length === 4) {
+                if (enteredCode === correctPasscode) {
+                    setTimeout(() => {
+                        switchScreen('screen-hub');
+                        enteredCode = "";
+                        updateDots();
+                    }, 250);
+                } else {
+                    errorMsg.textContent = "Incorrect code! Try again.";
+                    setTimeout(() => {
+                        enteredCode = "";
+                        updateDots();
+                        errorMsg.textContent = "";
+                    }, 800);
+                }
+            }
+        }
+
+        function updateDots() {
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i < enteredCode.length) {
+                    dot.classList.add("filled");
+                } else {
+                    dot.classList.remove("filled");
+                }
+            }
+        }
+
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function openLetter() {
+            const envelope = document.getElementById('envelope');
+            const letterContent = document.getElementById('letter-content');
+            envelope.classList.add('open');
+            setTimeout(() => {
+                envelope.style.display = 'none';
+                letterContent.style.display = 'block';
+            }, 350);
+        }
+
+        function openGiftModal(text) {
+            document.getElementById('giftModalText').textContent = text;
+            document.getElementById('giftModal').classList.add('active');
+        }
+
+        function closeGiftModal() {
+            document.getElementById('giftModal').classList.remove('active');
+        }
+
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        const trackName = document.getElementById('trackName');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (!bgMusic.src || bgMusic.src === window.location.href) {
+                alert("Tip: Ilagay ang audio link o filename sa <source src=''> sa code para tumugtog ang kanta mo!");
+                return;
+            }
+
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.textContent = "▶";
+                trackName.textContent = "Music Paused";
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicBtn.textContent = "⏸";
+                    trackName.textContent = "Now Playing...";
+                    isPlaying = true;
+                }).catch(e => {
+                    console.log("Audio play blocked or missing source:", e);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
